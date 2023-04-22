@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+.rect {
+    position: absolute;
+    border: 2px solid #000;
+    cursor: pointer;
+}
+
+div.rect-green {
+    font-family: '';
+    background-color: green;
+    color: white;
+    text-align: center; /* centraliza o texto horizontalmente */
+    font-size: 35px; /* define o tamanho da fonte em 24 pixels */
+    line-height: 100px; /* define a altura da linha igual à altura da tag "div" (100px) */
+}
+
+div.rect-red {
+    font-family: '';
+    background-color: red;
+    color: white;
+    text-align: center; /* centraliza o texto horizontalmente */
+    font-size: 35px; /* define o tamanho da fonte em 24 pixels */
+    line-height: 100px; /* define a altura da linha igual à altura da tag "div" (100px) */
+}
