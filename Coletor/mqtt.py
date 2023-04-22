@@ -1,5 +1,18 @@
 import time
+import os
 from azure.iot.device import IoTHubDeviceClient, MethodResponse
+
+pinList = {'A1':18, 'A2':19, 'A3':20, 'A4':18, 'A5':18}
+
+def steupRaspbery():
+    print('***INICIANDO SETUP RASPBERRY***')
+    if os.name != 'nt':
+        import RPi.GPIO as GPIO
+        GPIO.setmode(GPIO.BCM)
+        for key, pin in pinList.items():
+            GPIO.setup(pin, GPIO.OUT)
+            print(f'pino({pin}) configurado como saída.')
+
 
 def create_client():
     CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
@@ -24,31 +37,31 @@ def create_client():
     return client
 
 def ligarAndar(andar):
-    if andar == 'A1':
-        pass
-    elif andar == 'A2':
-        pass
-    elif andar == 'A3':
-        pass
-    elif andar == 'A4':
-        pass
+    global pinList
+    if os.name != 'nt':
+        if andar in pinList:
+            pin = pinList[andar]
+            GPIO.output(pin, GPIO.HIGH)
 
-    return f'ANDAR {andar[1]} LIGADO COM SUCESSO !'
+        return f'ANDAR {pin} LIGADO COM SUCESSO !'
+    else:
+        print(f'LIGAR ANDAR {andar}')
+
 
 def desligarAndar(andar):
-    if andar == 'A1':
-        pass
-    elif andar == 'A2':
-        pass
-    elif andar == 'A3':
-        pass
-    elif andar == 'A4':
-        pass
-    
-    return f'ANDAR {andar[1]} DESLIGADO COM SUCESSO !'
+    global pinList
+    if os.name != 'nt':
+        if andar in pinList:
+            pin = pinList[andar]
+            GPIO.output(pin, GPIO.HIGH)
+
+        return f'ANDAR {pin} DESLIGADO COM SUCESSO !'
+    else:
+        print(f'LIGAR ANDAR {andar}')
 
 
 def main():
+    steupRaspbery()
     print ("***INICIANDO HUB ToT LOCAL***")
     client = create_client()
 

@@ -1,4 +1,3 @@
-import time
 from azure.iot.hub import IoTHubRegistryManager
 from azure.iot.hub.models import CloudToDeviceMethod
 
