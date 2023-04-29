@@ -1,2 +1,0 @@
-azure-iot-device
-RPi.GPIO; sys_platform == 'linux'
