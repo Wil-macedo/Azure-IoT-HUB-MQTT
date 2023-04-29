@@ -1,105 +1,47 @@
-from azure.iot.device import IoTHubDeviceClient, MethodResponse
-from time import sleep 
-import os
+from azure.iot.device import IoTHubDeviceClient, MethodResponse  # Lib IoT Hub.
+from time import sleep # Lib para delay.
+from raspberry import * # Lib de controle do Raspberry (apenas para organizar).
 
-if os.name != 'nt':
-        import RPi.GPIO as GPIO
-
-PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20, 'A5':21}
-
-def steupRaspbery():
-    print('***INICIANDO SETUP RASPBERRY***')
-    
-    if os.name != 'nt':
-        GPIO.setmode(GPIO.BCM)
-        for key, pin in PINLIST.items():
-            GPIO.setup(pin, GPIO.OUT)
-
-            while True:
-                GPIO.output(pin, GPIO.HIGH)  # Para iniciar o sistema desligado!
-                status = GPIO.input(pin)
-                if status == GPIO.HIGH:
-                    print(f'pino({pin}) configurado como saída e status OFF')
-                    break
-                sleep(.1)
-    else:
-        print('***INICIANDO SISTEMA NO WINDOWS, NÃO POSSUÍ GPIO***')
-
-
-
-def pinStatus():
-    pinValues = {}
-    for key, pin in PINLIST.items():
-        status = GPIO.input(pin)
-        pinValues[key] = status
-        
-    return pinValues
- 
+# Cria cliente IoT Hub.
 def create_client():
     CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
-    client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
+    client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)  # Conecta cliente ao IoT Hub
 
     def method_request_handler(method_request):
+        command = method_request.payload  # Recebe comando IoT do servidor.
         
-        command = method_request.payload
-        if command == 'check':
+        if command == 'check': # Se for a primeira conexão, ele envia status dos pinos.
             result = pinStatus()
         else:
-            floor = method_request.name
-            result = controlFloor(command, floor)
-
-    
-        
+            floor = method_request.name # Identifica andar que será ligado.
+            result = controlFloor(command, floor)  # Função de controle do andar.   
         print(result)
         
-        resp_payload = {"Response": result}
-        method_response = MethodResponse(method_request.request_id, 200, resp_payload)
-        client.send_method_response(method_response)
+        resp_payload = {"Response": result}  # Monta resposta para o servidor.
+        method_response = MethodResponse(method_request.request_id, 200, resp_payload)  
+        client.send_method_response(method_response)  # Envia resposta. 
 
     try:    
-        client.on_method_request_received = method_request_handler
+        client.on_method_request_received = method_request_handler  # Loop que aguarda comandos.
     except: 
-        client.shutdown()
+        client.shutdown()  # Delsiga serviço.
 
     return client
 
-def controlFloor(action, floor):
-    global PINLIST
-    
-    if os.name != 'nt':
-        if floor in PINLIST:
-            pin = PINLIST[floor]
-
-            command = GPIO.LOW if action == 'ligar' else GPIO.HIGH
-            log = 'LIGADO' if action == 'ligar' else 'DESLIGADO'
-            
-            GPIO.output(pin, command)
-
-            while True:
-                status = GPIO.input(pin)  # Certeza que pino est desligado
-                if status == command:
-                    break
-                else:
-                    GPIO.output(pin, command)  # Envia novamente o comando
-                    sleep(.1)
-            
-        return f'ANDAR {floor} {log} COM SUCESSO, PIN:{pin} !'
-    
-    print(f'{action.upper()} ANDAR {floor}')
-
-
+# Função principal
 def main():
-    steupRaspbery()
+    steupRaspbery()  # Configura pinos do Raspberry.
     print ("***INICIANDO HUB ToT LOCAL***")
     client = create_client()
 
-    print ("AGUARDANDO COMANDOS, PRESSIONA Ctrl-C PARA SAIR")
+    print ("AGUARDANDO COMANDOS, PRESSIONA Ctrl+C PARA SAIR")
     try:
-        while True: sleep(1000)
+        while True: sleep(1000)  # Software roda em Thread.
     except KeyboardInterrupt:
         print("IoTHubDeviceClient ENCERRADO")
     finally:
         print("DESLIGANDO IoT Hub Client")
         client.shutdown()
 
-main()  # Start
+if __name__ == '__main__':
+    main()  # Ínicia aplicação.
