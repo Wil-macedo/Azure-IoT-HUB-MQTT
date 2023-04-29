@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, url_for
 from flask_bootstrap import Bootstrap 
-from Server_IoT.hub_Tot import *
+from lib.hub_Tot import *
 
 app = Flask(__name__)
 Bootstrap(app)
