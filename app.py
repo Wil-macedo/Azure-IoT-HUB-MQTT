@@ -16,19 +16,17 @@ def login():
 
 @app.route("/predio")
 def predio():
-    return render_template('predio.html')
-
+    pinStatus = iothubRun('True', 'check')
+    return render_template('predio.html', pinStatus =pinStatus['Response'])
 
 @app.route("/mqtt/<andar>/<ligar>")
 def mqtt(andar, ligar):
     result = None
     while result is None:
         try:
-            result = iothub_devicemethod_sample_run(andar, ligar)
+            result = iothubRun(andar, ligar)
         except Exception as ex:
             print(ex)
     return redirect(url_for("predio"))
 
 app.run(host='0.0.0.0', debug=True)
-
-

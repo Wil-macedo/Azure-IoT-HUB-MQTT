@@ -1,9 +1,13 @@
-.container {
-    position: relative;
+.coluna {
     display: inline-block;
-}
-
-.rect {
+  }
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  .rect {
     position: absolute;
     border: 2px solid #000;
     cursor: pointer;
@@ -26,3 +30,40 @@ div.rect-red {
     font-size: 35px; /* define o tamanho da fonte em 24 pixels */
     line-height: 100px; /* define a altura da linha igual à altura da tag "div" (100px) */
 }
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    position: relative;
+  }
+  
+  .chave {
+    position: absolute;
+    top: -25px;
+    font-size: 50px;
+  }
+  
+  .circulo {
+    font-size: 200px;
+  }
+  
+  .verde {
+    color: green;
+  }
+  
+  .cinza {
+    color: gray;
+  }
+    
+    
