@@ -5,7 +5,7 @@ import os
 if os.name != 'nt':
         import RPi.GPIO as GPIO
 
-PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20, 'A5':18}
+PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20, 'A5':21}
 
 def steupRaspbery():
     print('***INICIANDO SETUP RASPBERRY***')
@@ -27,14 +27,28 @@ def steupRaspbery():
 
 
 
+def pinStatus():
+    pinValues = {}
+    for key, pin in PINLIST.items():
+        status = GPIO.input(pin)
+        pinValues[key] = status
+        
+    return pinValues
+ 
 def create_client():
     CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
     client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
 
     def method_request_handler(method_request):
+        
         command = method_request.payload
-        floor = method_request.name
-        result = controlFloor(command, floor)
+        if command == 'check':
+            result = pinStatus()
+        else:
+            floor = method_request.name
+            result = controlFloor(command, floor)
+
+    
         
         print(result)
         
