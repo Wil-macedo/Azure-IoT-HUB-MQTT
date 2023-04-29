@@ -10,17 +10,22 @@ PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20, 'A5':18}
 def steupRaspbery():
     print('***INICIANDO SETUP RASPBERRY***')
     
-    GPIO.setmode(GPIO.BCM)
-    for key, pin in PINLIST.items():
-        GPIO.setup(pin, GPIO.OUT)
+    if os.name != 'nt':
+        GPIO.setmode(GPIO.BCM)
+        for key, pin in PINLIST.items():
+            GPIO.setup(pin, GPIO.OUT)
 
-        while True:
-            GPIO.output(pin, GPIO.HIGH)  # Para iniciar o sistema desligado!
-            status = GPIO.input(pin)
-            if status == GPIO.HIGH:
-                print(f'pino({pin}) configurado como saída e status OFF')
-                break
-            sleep(.1)
+            while True:
+                GPIO.output(pin, GPIO.HIGH)  # Para iniciar o sistema desligado!
+                status = GPIO.input(pin)
+                if status == GPIO.HIGH:
+                    print(f'pino({pin}) configurado como saída e status OFF')
+                    break
+                sleep(.1)
+    else:
+        print('***INICIANDO SISTEMA NO WINDOWS, NÃO POSSUÍ GPIO***')
+
+
 
 def create_client():
     CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
@@ -66,7 +71,7 @@ def controlFloor(action, floor):
             
         return f'ANDAR {floor} {log} COM SUCESSO, PIN:{pin} !'
     
-    print(f'{action.upper()} ANDAR {andar}')
+    print(f'{action.upper()} ANDAR {floor}')
 
 
 def main():
