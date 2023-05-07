@@ -1,13 +1,8 @@
-#!/bin/bash
-
-cd /TCC/TCC_COLETOR
-
-git fetch origin
-git merge origin/main
+cd /home/ecoloop/tcc/coletor
 
 
 while true
 do 
     python mqtt.py
-    echo "******"
+    echo “Press CTRL+C to exit
 done

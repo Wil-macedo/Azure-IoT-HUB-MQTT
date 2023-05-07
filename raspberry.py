@@ -2,7 +2,7 @@ import os  # Lib para comandos no sistema operacional.
 if os.name != 'nt':  # Verifica se não é Windows.
         import RPi.GPIO as GPIO  # Lib Raspberry IO
 
-PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20, 'A5':26}  # Lista de I/O Raspberry.
+PINLIST = {'A1':17, 'A2':18, 'A3':19, 'A4':20}  # Lista de I/O Raspberry.
 
 def steupRaspbery():
     print('***INICIANDO SETUP RASPBERRY***')
