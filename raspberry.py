@@ -11,7 +11,6 @@ def steupRaspbery():
         GPIO.setmode(GPIO.BCM)  # Define padrão de pinos.
         for key, pin in PINLIST.items():
             GPIO.setup(pin, GPIO.OUT)  # Define pinos como saída digital.
-
             while True:
                 GPIO.output(pin, GPIO.HIGH)  # Para iniciar o sistema desligado.
                 status = GPIO.input(pin)
@@ -21,7 +20,6 @@ def steupRaspbery():
                 sleep(.1)
     else:
         print('***INICIANDO SISTEMA NO WINDOWS, NÃO POSSUÍ GPIO***')
-
 
 def pinStatus():
     pinValues = {}
@@ -33,19 +31,14 @@ def pinStatus():
             print('***WINDOWS, NÃO POSSUÍ GPIO***')
     return pinValues  # Retorna lista com o status de todos os pinos.
 
-
 def controlFloor(action, floor):
     global PINLIST
-    
     if os.name != 'nt':
         if floor in PINLIST:
             pin = PINLIST[floor]
-
             command = GPIO.LOW if action == 'ligar' else GPIO.HIGH  # Verifica qual comando veio do servidor.
             log = 'LIGADO' if action == 'ligar' else 'DESLIGADO'
-            
             GPIO.output(pin, command)   # ON/OFF , de acordo com o comando do servidor. 
-
             while True:
                 status = GPIO.input(pin)
                 if status == command:
@@ -53,7 +46,5 @@ def controlFloor(action, floor):
                 else:
                     GPIO.output(pin, command)  # Envia novamente o comando.
                     sleep(.1)
-            
         return f'ANDAR {floor} {log} COM SUCESSO, PIN:{pin} !'  # Retorno que irá para o servidor.
-    
     print(f'{action.upper()} ANDAR {floor}')  # Caso Windows, apenas "loga".
