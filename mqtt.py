@@ -3,17 +3,18 @@ from time import sleep # Lib para delay.
 from raspberry import * # Lib de controle do Raspberry (apenas para organizar).
 
 def create_client():  # Cria cliente IoT Hub.
-    CONNECTION_STRING = f"HostName=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
     client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)  # Conecta cliente ao IoT Hub
 
     def method_request_handler(method_request):
-        command = method_request.payload  # Recebe comando IoT do servidor.
-        if command == 'check': # Se for a primeira conexão, ele envia status dos pinos.
-            result = pinStatus()
-        else:
+        resultAction = None
+        onlyCheck = method_request.payload  # Recebe comando IoT do servidor.
+        if onlyCheck != "check": # Possu comandos de acionamento.
             floor = method_request.name # Identifica andar que será ligado.
-            result = controlFloor(command, floor)  # Função de controle do andar.   
-        print(result)
+            resultAction = controlFloor(onlyCheck, floor)  # Função de controle do andar.   
+        resultPinStatus = pinStatus()
+        result = {"pinStatus":resultPinStatus, "resultAction":resultAction if resultAction is not None else {}}
+        print(result)   
         
         resp_payload = {"Response": result}  # Monta resposta para o servidor.
         method_response = MethodResponse(method_request.request_id, 200, resp_payload)  
@@ -38,5 +39,5 @@ def main():  # Função principal
         print("DESLIGANDO IoT Hub Client")
         client.shutdown()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()  # Ínicia aplicação.
