@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>SISTEMA DE CONTROLE DO PRÉDIO</title>
+    <link rel="stylesheet" href="static/css/predio.css">
+  </head>
+  <body>
+    <div><img src="/static/images/predio.JPG" alt="Imagem" width="500" height="800"></div>
+      
+    <div class="coluna">
+      <a href="/mqtt/A3/ligar"><div class="rect rect-green" style="top:340px; left:500px; width:200px; height:100px;">LIGAR</div></a>
+      <a href="/mqtt/A2/ligar"><div class="rect rect-green" style="top:480px; left:500px; width:200px; height:100px;">LIGAR</div></a>
+      <a href="/mqtt/A4/ligar"><div class="rect rect-green" style="top:200px; left:500px; width:200px; height:100px;">LIGAR</div></a>
+      <a href="/mqtt/A1/ligar"><div class="rect rect-green" style="top:620px; left:500px; width:200px; height:100px;">LIGAR</div></a>
+      
+      <a href="/mqtt/A4/desligar"><div class="rect rect-red" style="top:200px; left:800PX; width:200px; height:100px;">DESLIGAR</div></a>
+      <a href="/mqtt/A3/desligar"><div class="rect rect-red" style="top:340px; left:800PX; width:200px; height:100px;">DESLIGAR</div></a>
+      <a href="/mqtt/A2/desligar"><div class="rect rect-red" style="top:480px; left:800PX; width:200px; height:100px;">DESLIGAR</div></a>
+      <a href="/mqtt/A1/desligar"><div class="rect rect-red" style="top:620px; left:800PX; width:200px; height:100px;">DESLIGAR</div></a>    
+    </div>
+    
+    <div class="coluna">
+        <ul>
+            {% for chave, valor in pinStatus.items() %}
+              <li>
+                <span class="chave">{{ chave }}</span>
+                {% if valor == 0 %}
+                  <span class="circulo verde">&#x25CF;</span>
+                {% else %}
+                  <span class="circulo cinza">&#x25CF;</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+          
+    </div>
+  </body>
+</html>

@@ -2,7 +2,7 @@ import os  # Lib para comandos no sistema operacional.
 from time import sleep
 
 if os.name != "nt":  # Verifica se não é Windows.
-        import RPi.GPIO as GPIO  # Lib Raspberry IO
+    import RPi.GPIO as GPIO  # Lib Raspberry IO
 
 PINLIST = {"A1":17, "A2":18, "A3":19, "A4":20}  # Lista de I/O Raspberry.
 
@@ -23,6 +23,7 @@ def steupRaspbery():
     else:
         print("***INICIANDO SISTEMA NO WINDOWS, NÃO POSSUÍ GPIO***")
 
+
 def pinStatus():
     pinValues = {}
     for key, pin in PINLIST.items():  # Olha todos os pinos da lista.
@@ -32,6 +33,7 @@ def pinStatus():
         else:
             print("***WINDOWS, NÃO POSSUÍ GPIO***")
     return pinValues  # Retorna lista com o status de todos os pinos.
+
 
 def controlFloor(action, floor):
     global PINLIST

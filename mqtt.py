@@ -2,8 +2,9 @@ from azure.iot.device import IoTHubDeviceClient, MethodResponse  # Lib IoT Hub.
 from time import sleep # Lib para delay.
 from raspberry import * # Lib de controle do Raspberry (apenas para organizar).
 
+
 def create_client():  # Cria cliente IoT Hub.
-    CONNECTION_STRING = f"HostName=coletores.azure-devices.net;DeviceId=Willian;SharedAccessKey=+rLE2638/MuS4RoH2iUsgDTQxhej1cpVf3K6Zn7pqC4="
+    CONNECTION_STRING = "YOUR_KEY"  # https://devblogs.microsoft.com/iotdev/understand-different-connection-strings-in-azure-iot-hub/
     client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)  # Conecta cliente ao IoT Hub
 
     def method_request_handler(method_request):
@@ -24,6 +25,7 @@ def create_client():  # Cria cliente IoT Hub.
     except: 
         client.shutdown()  # Delsiga serviço.
     return client
+
 
 def main():  # Função principal
     steupRaspbery()  # Configura pinos do Raspberry.

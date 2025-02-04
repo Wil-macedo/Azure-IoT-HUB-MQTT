@@ -1,0 +1,89 @@
+.coluna {
+    display: inline-block;
+}
+  
+body {
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+  
+.rect {
+  position: absolute;
+  border: 2px solid #000;
+  cursor: pointer;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+div.rect-green {
+    font-family: '';
+    background-color: green;
+    color: white;
+    text-align: center; /* centraliza o texto horizontalmente */
+    font-size: 35px; /* define o tamanho da fonte em 24 pixels */
+    line-height: 100px; /* define a altura da linha igual à altura da tag "div" (100px) */
+}
+
+
+.rect-green:hover {background-color: #3e8e41}
+
+.rect-green:active {
+background-color: #3e8e41;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
+
+div.rect-red {
+    font-family: '';
+    background-color: gray;
+    color: white;
+    text-align: center; /* centraliza o texto horizontalmente */
+    font-size: 35px; /* define o tamanho da fonte em 24 pixels */
+    line-height: 100px; /* define a altura da linha igual à altura da tag "div" (100px) */
+}
+
+.rect-red:hover {background-color: #f11}
+
+.rect-red:active {
+background-color:  #f00;
+box-shadow: 0 5px #666;
+transform: translateY(4px);
+}
+
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    position: relative;
+  }
+  
+  .chave {
+    position: absolute;
+    top: -25px;
+    font-size: 50px;
+  }
+  
+  .circulo {
+    font-size: 200px;
+  }
+  
+  .verde {
+    color: green;
+  }
+  
+  .cinza {
+    color: gray;
+  }
+    
+    
